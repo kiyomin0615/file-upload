@@ -20,8 +20,10 @@ const storageOption = multer.diskStorage({
 const upload = multer({ storage: storageOption }); // 파일 저장 경로와 파일 이름 설정
 const router = express.Router();
 
-router.get('/', function(req, res) {
-  res.render('profiles');
+router.get('/', async function(req, res) {
+  const users = await db.getDB().collection("users").find().toArray();
+  
+  res.render('profiles', { users: users });
 });
 
 router.get('/new-user', function(req, res) {
